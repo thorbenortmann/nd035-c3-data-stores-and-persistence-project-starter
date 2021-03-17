@@ -1,10 +1,14 @@
-package com.udacity.jdnd.course3.critter.user;
+package com.udacity.jdnd.course3.critter.controller;
 
-import com.udacity.jdnd.course3.critter.controller.EmployeeNotFoundException;
+import com.udacity.jdnd.course3.critter.controller.dto.CustomerDTO;
+import com.udacity.jdnd.course3.critter.controller.dto.EmployeeDTO;
+import com.udacity.jdnd.course3.critter.controller.dto.EmployeeRequestDTO;
+import com.udacity.jdnd.course3.critter.controller.exception.EmployeeNotFoundException;
 import com.udacity.jdnd.course3.critter.model.Customer;
 import com.udacity.jdnd.course3.critter.model.Employee;
 import com.udacity.jdnd.course3.critter.model.Pet;
-import com.udacity.jdnd.course3.critter.pet.PetService;
+import com.udacity.jdnd.course3.critter.service.PetService;
+import com.udacity.jdnd.course3.critter.service.UserService;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
