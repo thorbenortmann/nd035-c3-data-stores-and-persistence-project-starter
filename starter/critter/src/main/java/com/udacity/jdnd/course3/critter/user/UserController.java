@@ -1,6 +1,8 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import com.udacity.jdnd.course3.critter.controller.EmployeeNotFoundException;
 import com.udacity.jdnd.course3.critter.model.Customer;
+import com.udacity.jdnd.course3.critter.model.Employee;
 import com.udacity.jdnd.course3.critter.model.Pet;
 import com.udacity.jdnd.course3.critter.pet.PetService;
 import lombok.val;
@@ -47,12 +49,15 @@ public class UserController {
 
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        val employeeToSave = toEmployee(employeeDTO);
+        val savedEmployee = userService.saveEmployee(employeeToSave);
+        return toEmployeeDTO(savedEmployee);
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        val employee = userService.findEmployeeById(employeeId).orElseThrow(EmployeeNotFoundException::new);
+        return toEmployeeDTO(employee);
     }
 
     @PutMapping("/employee/{employeeId}")
@@ -79,7 +84,7 @@ public class UserController {
     }
 
     private CustomerDTO toCustomerDTO(Customer customer) {
-        var customerDTO = new CustomerDTO();
+        val customerDTO = new CustomerDTO();
         customerDTO.setId(customer.getId());
         customerDTO.setName(customer.getName());
         customerDTO.setPhoneNumber(customer.getPhoneNumber());
@@ -88,5 +93,23 @@ public class UserController {
             customerDTO.setPetIds(customer.getPets().stream().map(Pet::getId).collect(Collectors.toList()));
         }
         return customerDTO;
+    }
+
+    private EmployeeDTO toEmployeeDTO(Employee employee) {
+        val employeeDTO = new EmployeeDTO();
+        employeeDTO.setId(employee.getId());
+        employeeDTO.setName(employee.getName());
+        employeeDTO.setDaysAvailable(employee.getDaysAvailable());
+        employeeDTO.setSkills(employee.getSkills());
+        return employeeDTO;
+    }
+
+    private Employee toEmployee(EmployeeDTO employeeDTO) {
+        val employee = new Employee();
+        employee.setId(employeeDTO.getId());
+        employee.setName(employeeDTO.getName());
+        employee.setDaysAvailable(employeeDTO.getDaysAvailable());
+        employee.setSkills(employeeDTO.getSkills());
+        return employee;
     }
 }
