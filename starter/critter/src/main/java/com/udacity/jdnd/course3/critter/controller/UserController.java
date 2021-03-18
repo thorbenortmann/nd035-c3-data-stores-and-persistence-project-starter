@@ -4,6 +4,7 @@ import com.udacity.jdnd.course3.critter.controller.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.controller.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.controller.dto.EmployeeRequestDTO;
 import com.udacity.jdnd.course3.critter.controller.exception.EmployeeNotFoundException;
+import com.udacity.jdnd.course3.critter.controller.exception.PetNotFoundException;
 import com.udacity.jdnd.course3.critter.model.Customer;
 import com.udacity.jdnd.course3.critter.model.Employee;
 import com.udacity.jdnd.course3.critter.model.Pet;
@@ -48,7 +49,8 @@ public class UserController {
 
     @GetMapping("/customer/pet/{petId}")
     public CustomerDTO getOwnerByPet(@PathVariable long petId){
-        throw new UnsupportedOperationException();
+        val pet = this.petService.findPetById(petId).orElseThrow(PetNotFoundException::new);
+        return toCustomerDTO(pet.getOwner());
     }
 
     @PostMapping("/employee")
