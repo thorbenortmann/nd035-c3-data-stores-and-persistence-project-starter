@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PetService {
@@ -16,5 +17,17 @@ public class PetService {
 
     public List<Pet> findPets(List<Long> petIds) {
         return Lists.newArrayList(petRepository.findAllById(petIds));
+    }
+
+    public Pet savePet(Pet pet) {
+        return petRepository.save(pet);
+    }
+
+    public Optional<Pet> findPetById(long petId) {
+        return petRepository.findById(petId);
+    }
+
+    public List<Pet> findPetsByOwner(long ownerId) {
+        return petRepository.findByOwnerId(ownerId);
     }
 }

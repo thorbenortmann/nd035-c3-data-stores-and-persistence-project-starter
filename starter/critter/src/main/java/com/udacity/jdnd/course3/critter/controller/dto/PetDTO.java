@@ -9,10 +9,10 @@ import java.time.LocalDate;
  * to the database directly.
  */
 public class PetDTO {
-    private long id;
+    private Long id;
     private PetType type;
     private String name;
-    private long ownerId;
+    private Long ownerId;
     private LocalDate birthDate;
     private String notes;
 
@@ -56,11 +56,11 @@ public class PetDTO {
         this.notes = notes;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

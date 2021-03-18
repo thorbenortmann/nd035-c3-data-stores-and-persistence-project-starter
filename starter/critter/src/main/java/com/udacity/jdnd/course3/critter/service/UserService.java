@@ -35,4 +35,8 @@ public class UserService {
     public Optional<Employee> findEmployeeById(long employeeId) {
         return employeeRepository.findById(employeeId);
     }
+
+    public Optional<Customer> findCustomerById(Long customerId) {
+        return customerRepository.findById(customerId);
+    }
 }
