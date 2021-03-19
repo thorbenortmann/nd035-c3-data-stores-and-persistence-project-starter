@@ -36,19 +36,19 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/customer")
-    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
+    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO) {
         val customerToSave = toCustomer(customerDTO);
         val savedCustomer = userService.saveCustomer(customerToSave);
         return toCustomerDTO(savedCustomer);
     }
 
     @GetMapping("/customer")
-    public List<CustomerDTO> getAllCustomers(){
+    public List<CustomerDTO> getAllCustomers() {
         return userService.findAllCustomers().stream().map(this::toCustomerDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/customer/pet/{petId}")
-    public CustomerDTO getOwnerByPet(@PathVariable long petId){
+    public CustomerDTO getOwnerByPet(@PathVariable long petId) {
         val pet = this.petService.findPetById(petId).orElseThrow(PetNotFoundException::new);
         return toCustomerDTO(pet.getOwner());
     }
@@ -74,8 +74,11 @@ public class UserController {
     }
 
     @GetMapping("/employee/availability")
-    public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+    public Set<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
+        return userService
+                .findEmployeeBySkillAndDayOfWeek(employeeDTO.getSkills(), employeeDTO.getDate().getDayOfWeek())
+                .stream().map(this::toEmployeeDTO)
+                .collect(Collectors.toSet());
     }
 
     private Customer toCustomer(CustomerDTO customerDTO) {
