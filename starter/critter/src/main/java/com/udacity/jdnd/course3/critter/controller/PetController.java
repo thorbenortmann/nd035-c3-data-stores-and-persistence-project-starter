@@ -40,7 +40,7 @@ public class PetController {
 
     @GetMapping
     public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
+        return petService.findAll().stream().map(this::toPetDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/owner/{ownerId}")
@@ -71,14 +71,16 @@ public class PetController {
         pet.setBirthDate(petDTO.getBirthDate());
         pet.setNotes(petDTO.getNotes());
 
-        val ownerOptional = userService.findCustomerById(petDTO.getOwnerId());
-        if (ownerOptional.isPresent()) {
-            val owner = ownerOptional.get();
-            if (owner.getPets() == null) {
-                owner.setPets(new ArrayList<>());
+        if (petDTO.getOwnerId() != null) {
+            val ownerOptional = userService.findCustomerById(petDTO.getOwnerId());
+            if (ownerOptional.isPresent()) {
+                val owner = ownerOptional.get();
+                if (owner.getPets() == null) {
+                    owner.setPets(new ArrayList<>());
+                }
+                owner.getPets().add(pet);
+                pet.setOwner(owner);
             }
-            owner.getPets().add(pet);
-            pet.setOwner(owner);
         }
         return pet;
     }
