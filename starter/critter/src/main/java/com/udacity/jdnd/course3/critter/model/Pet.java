@@ -25,6 +25,7 @@ public class Pet {
 
     private LocalDate birthDate;
 
+    @Column(columnDefinition="TEXT")
     private String notes;
 
 }
