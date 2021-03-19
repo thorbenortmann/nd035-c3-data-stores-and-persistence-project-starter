@@ -68,7 +68,9 @@ public class UserController {
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        val employee = userService.findEmployeeById(employeeId).orElseThrow(EmployeeNotFoundException::new);
+        employee.setDaysAvailable(daysAvailable);
+        userService.saveEmployee(employee);
     }
 
     @GetMapping("/employee/availability")
