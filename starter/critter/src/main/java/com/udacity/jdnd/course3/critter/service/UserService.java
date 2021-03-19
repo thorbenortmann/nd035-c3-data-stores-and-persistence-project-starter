@@ -51,4 +51,8 @@ public class UserService {
                         e.getDaysAvailable().contains(dayOfWeek))
                 .collect(Collectors.toSet());
     }
+
+    public List<Employee> findEmployees(List<Long> employeeIds) {
+        return Lists.newArrayList(employeeRepository.findAllById(employeeIds));
+    }
 }

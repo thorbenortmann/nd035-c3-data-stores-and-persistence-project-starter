@@ -1,10 +1,16 @@
 package com.udacity.jdnd.course3.critter.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@Getter @Setter @NoArgsConstructor
 public class Schedule {
 
     @Id
@@ -20,6 +26,6 @@ public class Schedule {
     private LocalDate date;
 
     @ElementCollection
-    private List<EmployeeSkill> activities;
+    private Set<EmployeeSkill> activities;
 
 }
