@@ -8,6 +8,10 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+/*
+It makes sense to keep Employees and Customers in different tables (InheritanceType.TABLE_PER_CLASS)
+as the application never queries for all Users but instead only for either Employees or Customers.
+ */
 @Getter @Setter @NoArgsConstructor
 public abstract class User {
 
