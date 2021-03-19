@@ -8,6 +8,7 @@ import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
@@ -27,6 +29,10 @@ public class UserService {
 
     public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
+    }
+
+    public Optional<Customer> findCustomerById(Long customerId) {
+        return customerRepository.findById(customerId);
     }
 
     public List<Customer> findAllCustomers() {
@@ -41,8 +47,8 @@ public class UserService {
         return employeeRepository.findById(employeeId);
     }
 
-    public Optional<Customer> findCustomerById(Long customerId) {
-        return customerRepository.findById(customerId);
+    public List<Employee> findEmployees(List<Long> employeeIds) {
+        return Lists.newArrayList(employeeRepository.findAllById(employeeIds));
     }
 
     public Set<Employee> findEmployeeBySkillAndDayOfWeek(Set<EmployeeSkill> skills, DayOfWeek dayOfWeek) {
@@ -50,9 +56,5 @@ public class UserService {
                 .filter(e -> e.getSkills().containsAll(skills) &&
                         e.getDaysAvailable().contains(dayOfWeek))
                 .collect(Collectors.toSet());
-    }
-
-    public List<Employee> findEmployees(List<Long> employeeIds) {
-        return Lists.newArrayList(employeeRepository.findAllById(employeeIds));
     }
 }

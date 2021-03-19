@@ -5,11 +5,13 @@ import com.udacity.jdnd.course3.critter.repository.PetRepository;
 import com.udacity.jdnd.course3.critter.model.Pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PetService {
 
     @Autowired
@@ -29,5 +31,9 @@ public class PetService {
 
     public List<Pet> findPetsByOwner(long ownerId) {
         return petRepository.findByOwnerId(ownerId);
+    }
+
+    public List<Pet> findAll() {
+        return Lists.newArrayList(petRepository.findAll());
     }
 }
